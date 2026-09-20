@@ -245,3 +245,17 @@ main:focus { outline: none; }
   .msg { padding: 12px 14px; }
   .row { padding: 14px 12px; }
 }
+
+/* Link to the free Power BI + Python guide hosted on this site. */
+.learn-card {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.learn-card h2 { font-size: 19px; }
+.learn-card p { margin: 0; }
