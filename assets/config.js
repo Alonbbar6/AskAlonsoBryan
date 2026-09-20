@@ -2,7 +2,7 @@
 // The family link (#f=...) and the admin token are never stored in the repo.
 export const CONFIG = {
   // Paste your Apps Script Web App URL here (it ends with /exec). See README.md, step 4.
-  apiUrl: "https://script.google.com/macros/s/PASTE_YOUR_DEPLOYMENT_ID/exec",
+  apiUrl: "https://script.google.com/macros/s/AKfycbzZKVumucrTVA59iBxwZQjvH2o4dHNGFsjztOiwZDVTCSEhFo6XjL_5npcT_iUtdjIheg/exec",
   // How often open pages check for news, in seconds.
   pollSeconds: 8,
 };
