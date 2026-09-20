@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101318" media="(prefers-color-scheme: dark)">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- The site name is the same word in both languages, so the tab title never changes. -->
+  <title>Ask Alonso Bryan</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2316191D'/%3E%3Cpath d='M7 7h18a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 25 22h-8.2l-5.3 4.2V22H7a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 7 7z' fill='%23F2C811'/%3E%3Ccircle cx='11.5' cy='14.5' r='1.6' fill='%2316191D'/%3E%3Ccircle cx='16' cy='14.5' r='1.6' fill='%2316191D'/%3E%3Ccircle cx='20.5' cy='14.5' r='1.6' fill='%2316191D'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/family.css">
+  <script type="module" src="assets/family.js"></script>
+</head>
+<body>
+  <!-- Every [data-i18n*] node below is filled in by assets/family.js through t(). -->
+  <a class="skip-link" href="#main" data-i18n="a11y.skip"></a>
+
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="index.html" data-route="">
+        <svg class="glyph" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect class="glyph-bg" width="32" height="32" rx="8"/>
+          <path class="glyph-mark" d="M7 7h18a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 25 22h-8.2l-5.3 4.2V22H7a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 7 7z"/>
+        </svg>
+        <span data-i18n="site.name"></span>
+      </a>
+
+      <div id="langswitch" class="langswitch" role="group" data-i18n-label="nav.lang.legend">
+        <!-- "ES" / "EN" are the language codes themselves, so they are decorative here:
+             the name a screen reader announces is the translated one in the hidden span. -->
+        <button type="button" class="lang" data-lang="es" aria-pressed="true">
+          <span aria-hidden="true">ES</span> <span class="sr-only" data-i18n="nav.lang.es"></span>
+        </button>
+        <button type="button" class="lang" data-lang="en" aria-pressed="false">
+          <span aria-hidden="true">EN</span> <span class="sr-only" data-i18n="nav.lang.en"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <p id="conn" class="conn shell" role="status" data-i18n="conn.offline" hidden></p>
+
+  <main id="main" class="shell" tabindex="-1">
+
+    <!-- while the link is being checked with the server -->
+    <section id="view-loading" class="view" aria-busy="true">
+      <p class="sr-only" data-i18n="loading"></p>
+      <div class="skeleton sk-title"></div>
+      <div class="skeleton sk-block"></div>
+      <div class="skeleton sk-block"></div>
+    </section>
+
+    <section id="view-nolink" class="view screen" aria-labelledby="nolink-title" hidden>
+      <h1 id="nolink-title" tabindex="-1" data-i18n="nolink.title"></h1>
+      <p data-i18n="nolink.body"></p>
+      <p class="hint" data-i18n="nolink.hint"></p>
+    </section>
+
+    <section id="view-notconfigured" class="view screen" aria-labelledby="notconfigured-title" hidden>
+      <h1 id="notconfigured-title" tabindex="-1" data-i18n="notconfigured.title"></h1>
+      <p data-i18n="notconfigured.body"></p>
+      <p class="hint" data-i18n="notconfigured.hint"></p>
+    </section>
+
+    <section id="view-error" class="view screen" aria-labelledby="error-title" hidden>
+      <h1 id="error-title" tabindex="-1" data-i18n="error.title"></h1>
+      <p id="error-text"></p>
+      <p><button id="retry-btn" class="btn btn-blue" type="button" data-i18n="error.retry"></button></p>
+    </section>
+
+    <!-- home: what this is, the big button, and this device's list -->
+    <section id="view-home" class="view" aria-labelledby="home-title" hidden>
+      <div class="intro">
+        <h1 id="home-title" tabindex="-1" data-i18n="home.title"></h1>
+        <p class="lede" data-i18n="home.lede"></p>
+      </div>
+
+      <a id="action-ask" class="action action-primary" href="index.html?new=1" data-route="?new=1">
+        <span class="action-title">
+          <span data-i18n="home.ask.title"></span> <span class="arrow" aria-hidden="true">→</span>
+        </span>
+        <span class="action-sub" data-i18n="home.ask.sub"></span>
+      </a>
+
+      <div class="list-head">
+        <h2 id="list-title" data-i18n="home.list.title"></h2>
+        <span id="list-count" class="list-count"></span>
+      </div>
+      <div id="request-list" class="request-list"></div>
+
+      <div class="identity">
+        <p class="hint" data-i18n="code.note"></p>
+        <div class="identity-row">
+          <button id="copy-code" class="btn btn-sm" type="button" data-i18n="code.copy"></button>
+          <button id="notify-btn" class="btn btn-sm js-notify" type="button" data-i18n="notify.button" hidden></button>
+        </div>
+
+        <details class="more" id="code-box">
+          <summary data-i18n="code.have.summary"></summary>
+          <form id="code-form" class="code-form" novalidate>
+            <p id="hint-code" class="hint" data-i18n="code.have.hint"></p>
+            <div class="field">
+              <label for="f-code" data-i18n="code.have.label"></label>
+              <input id="f-code" name="code" class="input code" type="text" inputmode="latin"
+                     autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+                     maxlength="40" aria-describedby="hint-code">
+            </div>
+            <p id="code-error" class="form-error" role="alert"></p>
+            <button id="code-submit" class="btn" type="submit" data-i18n="code.have.button"></button>
+          </form>
+        </details>
+      </div>
+    </section>
+
+    <!-- the request form -->
+    <section id="view-form" class="view" aria-labelledby="form-title" hidden>
+      <a class="back" href="index.html" data-route=""><span aria-hidden="true">←</span> <span data-i18n="form.back"></span></a>
+      <h1 id="form-title" tabindex="-1" data-i18n="form.title"></h1>
+
+      <form id="ask-form" class="form" novalidate>
+        <div class="field">
+          <label for="f-name" data-i18n="form.name.label"></label>
+          <p id="hint-name" class="hint" data-i18n="form.name.hint"></p>
+          <input id="f-name" name="name" class="input" type="text" autocomplete="name"
+                 aria-describedby="hint-name count-name">
+          <span id="count-name" class="counter"></span>
+        </div>
+
+        <fieldset class="group">
+          <legend class="label" data-i18n="form.category.legend"></legend>
+          <div id="categories" class="choices">
+            <label class="choice" for="cat-tech">
+              <input type="radio" name="category" id="cat-tech" value="tech">
+              <span class="choice-title" data-i18n="cat.tech.title"></span>
+              <span class="choice-sub" data-i18n="cat.tech.sub"></span>
+            </label>
+            <label class="choice" for="cat-docs">
+              <input type="radio" name="category" id="cat-docs" value="docs">
+              <span class="choice-title" data-i18n="cat.docs.title"></span>
+              <span class="choice-sub" data-i18n="cat.docs.sub"></span>
+            </label>
+            <label class="choice" for="cat-school">
+              <input type="radio" name="category" id="cat-school" value="school">
+              <span class="choice-title" data-i18n="cat.school.title"></span>
+              <span class="choice-sub" data-i18n="cat.school.sub"></span>
+            </label>
+            <label class="choice" for="cat-data">
+              <input type="radio" name="category" id="cat-data" value="data">
+              <span class="choice-title" data-i18n="cat.data.title"></span>
+              <span class="choice-sub" data-i18n="cat.data.sub"></span>
+            </label>
+            <label class="choice" for="cat-money">
+              <input type="radio" name="category" id="cat-money" value="money">
+              <span class="choice-title" data-i18n="cat.money.title"></span>
+              <span class="choice-sub" data-i18n="cat.money.sub"></span>
+            </label>
+            <label class="choice" for="cat-other">
+              <input type="radio" name="category" id="cat-other" value="other">
+              <span class="choice-title" data-i18n="cat.other.title"></span>
+              <span class="choice-sub" data-i18n="cat.other.sub"></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="group">
+          <legend class="label" data-i18n="form.urgency.legend"></legend>
+          <div id="urgencies" class="choices choices-3">
+            <label class="choice" for="urg-normal">
+              <input type="radio" name="urgency" id="urg-normal" value="normal" checked>
+              <span class="choice-title" data-i18n="urg.normal.title"></span>
+              <span class="choice-sub" data-i18n="urg.normal.sub"></span>
+            </label>
+            <label class="choice" for="urg-soon">
+              <input type="radio" name="urgency" id="urg-soon" value="soon">
+              <span class="choice-title" data-i18n="urg.soon.title"></span>
+              <span class="choice-sub" data-i18n="urg.soon.sub"></span>
+            </label>
+            <label class="choice" for="urg-urgent">
+              <input type="radio" name="urgency" id="urg-urgent" value="urgent">
+              <span class="choice-title" data-i18n="urg.urgent.title"></span>
+              <span class="choice-sub" data-i18n="urg.urgent.sub"></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="f-title" data-i18n="form.subject.label"></label>
+          <p id="hint-title" class="hint" data-i18n="form.subject.hint"></p>
+          <input id="f-title" name="title" class="input" type="text" autocomplete="off"
+                 aria-describedby="hint-title count-title">
+          <span id="count-title" class="counter"></span>
+        </div>
+
+        <div class="field">
+          <label for="f-text" data-i18n="form.detail.label"></label>
+          <p id="hint-text" class="hint" data-i18n="form.detail.hint"></p>
+          <textarea id="f-text" name="text" class="textarea" rows="7" aria-describedby="hint-text count-text"></textarea>
+          <span id="count-text" class="counter"></span>
+        </div>
+
+        <div class="field">
+          <label for="f-links"><span data-i18n="form.links.label"></span> <span class="optional" data-i18n="form.optional"></span></label>
+          <p id="hint-links" class="hint" data-i18n="form.links.hint"></p>
+          <textarea id="f-links" name="links" class="textarea links" rows="2" spellcheck="false"
+                    autocapitalize="off" autocomplete="off" data-i18n-placeholder="form.links.ph"
+                    aria-describedby="hint-links count-links"></textarea>
+          <span id="count-links" class="counter"></span>
+        </div>
+
+        <div class="field">
+          <label for="f-email"><span data-i18n="form.email.label"></span> <span class="optional" data-i18n="form.optional"></span></label>
+          <p id="hint-email" class="hint" data-i18n="form.email.hint"></p>
+          <input id="f-email" name="email" class="input" type="email" autocomplete="email"
+                 aria-describedby="hint-email">
+        </div>
+
+        <p class="privacy" data-i18n="form.privacy"></p>
+        <p class="expect" data-i18n="form.expect"></p>
+
+        <p id="form-error" class="form-error" role="alert"></p>
+
+        <div class="form-actions">
+          <button id="form-submit" class="btn btn-primary" type="submit" data-i18n="form.submit"></button>
+          <a class="btn btn-ghost" href="index.html" data-route="" data-i18n="form.cancel"></a>
+        </div>
+      </form>
+    </section>
+
+    <!-- one request and its conversation -->
+    <section id="view-request" class="view" aria-labelledby="request-title" hidden>
+      <a class="back" href="index.html" data-route=""><span aria-hidden="true">←</span> <span data-i18n="req.back"></span></a>
+
+      <div class="request-head">
+        <p id="request-num" class="eyebrow"></p>
+        <h1 id="request-title" tabindex="-1"></h1>
+        <div id="request-meta" class="request-meta"></div>
+      </div>
+
+      <p id="request-error" class="form-error" role="alert"></p>
+      <p><button id="request-retry" class="btn btn-blue" type="button" data-i18n="error.retry" hidden></button></p>
+
+      <ol id="messages" class="messages" data-i18n-label="a11y.conversation"></ol>
+
+      <div id="request-status" class="status-line" role="status" aria-live="polite"></div>
+      <button id="notify-btn-request" class="btn btn-sm js-notify" type="button" data-i18n="notify.button" hidden></button>
+
+      <div id="done-row" class="done-row" hidden>
+        <p id="done-prompt" data-i18n="req.done.prompt"></p>
+        <button id="done-btn" class="btn" type="button" data-i18n="req.done.button"></button>
+      </div>
+      <p id="done-note" class="done-note" tabindex="-1" data-i18n="req.done.note" hidden></p>
+
+      <form id="followup-form" class="form followup" aria-labelledby="followup-title" novalidate hidden>
+        <h2 id="followup-title"></h2>
+        <div class="field">
+          <label for="r-text" data-i18n="req.followup.label"></label>
+          <textarea id="r-text" name="text" class="textarea" rows="4" aria-describedby="count-r-text"></textarea>
+          <span id="count-r-text" class="counter"></span>
+        </div>
+        <p id="followup-error" class="form-error" role="alert"></p>
+        <div class="form-actions">
+          <button id="followup-submit" class="btn btn-primary" type="submit" data-i18n="req.followup.send"></button>
+          <span class="hint" data-i18n="req.followup.hint"></span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer id="foot" class="foot shell" hidden>
+    <p data-i18n="foot.note"></p>
+  </footer>
+
+  <!-- Without JavaScript nothing can be translated, so this one line carries both languages. -->
+  <noscript>
+    <p class="shell">Para usar esta página necesitas activar JavaScript en tu navegador. ·
+      To use this page you need to turn on JavaScript in your browser.</p>
+  </noscript>
+</body>
+</html>
